@@ -43,3 +43,4 @@ class F1DotComScraper(Scraper):
                 self.session_times[session] = self.get_session_times(session)
             except IndexError:
                 self.session_times[session] = None
+
