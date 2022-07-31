@@ -6,10 +6,14 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
   </head>
   <body>
-    <h1>formulawhen</h1>
+    <h1>
+      <span style="color:red;">formula</span><!--
+    --><span style="color:white;">when</span>
+    </h1>
     <h2>When is F1 on again?</h2>
-    <p class="event_name">Italy</p>
-    <p class="event_name">France</p>
-    <p class="event_name">Mexico</p>
+    {% for location, sessions in sessions.items() %}
+    <h3>{{ location }}</h3>
+    <p class="event_name">{{sessions.Race[0]}}</p>
+    {% endfor %}
   </body>
 </html>

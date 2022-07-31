@@ -1,7 +1,11 @@
 from flask import Flask, render_template
+import json
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def home():
-    return render_template('home.html')
+    with open("data/sessions.json", "r") as f:
+        sessions = json.loads(f.read())
+    return render_template("home.html", sessions=sessions)
