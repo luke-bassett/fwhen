@@ -7,13 +7,15 @@
   </head>
   <body>
     <h1>
-      <span style="color:red;">formula</span><!--
-    --><span style="color:white;">when</span>
+      <span style="color:deeppink;">formula</span><!--
+    --><span style="color:palegreen;">when</span>
     </h1>
     <h2>When is F1 on again?</h2>
     {% for location, sessions in sessions.items() %}
-    <h3>{{ location }}</h3>
-    <p class="event_name">{{sessions.Race[0]}}</p>
+      <h3>{{ location }}</h3>
+      {% for session, times in sessions.items() %}
+      <p>{{session.lower()}} {{ times[0] }}</p>
+      {% endfor %}
     {% endfor %}
   </body>
 </html>

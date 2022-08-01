@@ -1,11 +1,8 @@
 * {
-  color: white;
+  color: palegreen;
 	font-family: courier, monospace;
-	background: darkblue;
+	background: lightsalmon;
 }
 body {
   padding: 8px;
-}
-.event_name {
-	font-size: 18px;
 }
