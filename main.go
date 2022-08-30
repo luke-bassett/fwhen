@@ -21,14 +21,11 @@ type Data struct {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	// page := &Page{Title: "FormulaWhen"}
-	// races := buildRaceSchedule()
 	data := Data{
 		Page:  Page{Title: "FormulaWhen"},
-		Races: buildRaceSchedule(),
+		Races: buildRaceSchedule(readFile(raceDataPath)),
 	}
 
-	// fmt.Println(race.Name, race.Sessions[4].TimeToStart)
 	t, err := template.ParseFiles("home.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -39,12 +36,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 }
 
 func main() {
-
 	http.HandleFunc("/", handler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	fmt.Println("Starting on :3000...")
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
@@ -82,24 +78,24 @@ func parseJson(b []byte) RaceSchedule {
 	return races
 }
 
-func (races RaceSchedule) getDurations() {
+// Get duration between time t and each session start time in races.
+func (races RaceSchedule) getDurations(t time.Time) {
 	for i, r := range races {
 		for j, s := range r.Sessions {
-			races[i].Sessions[j].TimeToStart = time.Until(s.StartTime)
+			races[i].Sessions[j].TimeToStart = s.StartTime.Sub(t)
 		}
 	}
 }
 
-func buildRaceSchedule() RaceSchedule {
-	races := parseJson(readFile(raceDataPath))
+func buildRaceSchedule(b []byte) RaceSchedule {
+	races := parseJson(b)
 	races.sortRaces()
-	races.getDurations()
+	races.getDurations(time.Now())
 	return races
 }
 
 func (r RaceSchedule) sortRaces() {
 	sort.Slice(r, func(i, j int) bool {
-		// 4th session is race
-		return r[i].Sessions[4].StartTime.Before(r[j].Sessions[4].StartTime)
+		return r[i].Sessions[0].StartTime.Before(r[j].Sessions[0].StartTime)
 	})
 }

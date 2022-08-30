@@ -2,23 +2,35 @@ package main
 
 import (
 	"testing"
+	"time"
 )
 
-const sample_json = `[{
+const sample_json = `
+[{
     "Name": "brazil",
    		"Sessions": [
-      {
-        "Name": "fp1",
-        "StartTime": "2022-11-11T15:30:00Z",
-        "EndTime": "2022-11-11T16:30:00Z"
+      		{
+				"Name": "fp1",
+				"StartTime": "2022-11-11T15:30:00Z",
+				"EndTime": "2022-11-11T16:30:00Z"
       }
+	]
+},
+{
+    "Name": "mexico",
+   		"Sessions": [
+	        {
+				"Name": "fp2",
+				"StartTime": "2022-10-28T18:00:00Z",
+				"EndTime": "2022-10-28T19:00:00Z"
+			}
 	]
 }]`
 
 func TestParseJson(t *testing.T) {
 	j := parseJson([]byte(sample_json))
-	got := j[0].Name
-	want := "brazil"
+	got := j[1].Name
+	want := "mexico"
 	if got != want {
 		t.Errorf("got %s, wanted %s", got, want)
 	}
@@ -26,5 +38,41 @@ func TestParseJson(t *testing.T) {
 	want = "fp1"
 	if got != want {
 		t.Errorf("got %s, wanted %s", got, want)
+	}
+}
+
+func TestSortRaces(t *testing.T) {
+	races := parseJson([]byte(sample_json))
+
+	races.sortRaces()
+	got := races[0].Name
+	want := "mexico"
+	if got != want {
+		t.Errorf("got %s, wanted %s", got, want)
+	}
+}
+
+func TestGetDurations(t *testing.T) {
+	races := parseJson([]byte(sample_json))
+	tt := time.Date(2022, 10, 27, 18, 0, 0, 0, time.UTC)
+	races.getDurations(tt)
+	got := races[1].Sessions[0].TimeToStart
+	want := time.Duration(24) * time.Hour
+	if got != want {
+		t.Errorf("got %s, wanted %s", got, want)
+	}
+}
+
+func TestBuildSchedule(t *testing.T) {
+	races := buildRaceSchedule([]byte(sample_json))
+	got := races[1].Sessions[0].Name
+	want := "fp1"
+	if got != want {
+		t.Errorf("got %s, wanted %s", got, want)
+	}
+	got2 := races[0].Sessions[0].EndTime
+	want2, _ := time.Parse(time.RFC3339, "2022-10-28T19:00:00Z")
+	if got2 != want2 {
+		t.Errorf("got %s, wanted %s", got2, want2)
 	}
 }
