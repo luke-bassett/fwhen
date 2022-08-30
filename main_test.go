@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 const sample_json = `[{
     "Name": "brazil",

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>{{.Title}}</title>
+  <title>{{.Page.Title}}</title>
   <link rel="stylesheet" type="text/css" href="static/style.css">
 </head>
 
@@ -11,6 +11,8 @@
   <h1>
     <span style="color:deeppink;">formula</span>
     <span style="color:palegreen;">when</span>
+    <p>{{(index .Races 0).Name}}</p>
+    <p>{{(index (index .Races 0).Sessions 4).TimeToStart}}</p>
   </h1>
 </body>
 
