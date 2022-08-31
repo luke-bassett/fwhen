@@ -12,8 +12,12 @@
     <span style="color:deeppink;">formula</span>
     <span style="color:palegreen;">when</span>
     <p>{{(index .Races 0).Name}}</p>
-    <p>{{(index (index .Races 0).Sessions 4).TimeToStart}}</p>
+    <p id="timer"></p>
   </h1>
+  <script>
+    let NsToStart = "{{(index (index .Races 0).Sessions 4).NsToStart}}";
+  </script>
+  <script src="static/tmp.js"></script>
 </body>
 
 </html>

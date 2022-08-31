@@ -56,10 +56,10 @@ func TestGetDurations(t *testing.T) {
 	races := parseJson([]byte(sample_json))
 	tt := time.Date(2022, 10, 27, 18, 0, 0, 0, time.UTC)
 	races.getDurations(tt)
-	got := races[1].Sessions[0].TimeToStart
-	want := time.Duration(24) * time.Hour
+	got := races[1].Sessions[0].NsToStart
+	want := int(time.Duration(24) * time.Hour)
 	if got != want {
-		t.Errorf("got %s, wanted %s", got, want)
+		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
 

@@ -55,10 +55,10 @@ type Race struct {
 }
 
 type Session struct {
-	Name        string    `json:"Name"`
-	StartTime   time.Time `json:"StartTime"` // RFC3339
-	EndTime     time.Time `json:"EndTime"`   // RFC3339
-	TimeToStart time.Duration
+	Name      string    `json:"Name"`
+	StartTime time.Time `json:"StartTime"` // RFC3339
+	EndTime   time.Time `json:"EndTime"`   // RFC3339
+	NsToStart int
 }
 
 func readFile(fp string) []byte {
@@ -82,7 +82,7 @@ func parseJson(b []byte) RaceSchedule {
 func (races RaceSchedule) getDurations(t time.Time) {
 	for i, r := range races {
 		for j, s := range r.Sessions {
-			races[i].Sessions[j].TimeToStart = s.StartTime.Sub(t)
+			races[i].Sessions[j].NsToStart = int(s.StartTime.Sub(t))
 		}
 	}
 }
