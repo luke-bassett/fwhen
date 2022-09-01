@@ -1,8 +1,22 @@
 * {
-  color: palegreen;
 	font-family: courier, monospace;
-	background: lightsalmon;
+	background: black;
 }
 body {
-  padding: 8px;
+  padding: 16px;
+}
+.title_1 {
+  color: rgb(216, 216, 216);
+}
+.title_2 {
+  color: red;
+}
+.race {
+  font-weight: bold;
+}
+.race_name {
+  font-weight: bold;
+}
+p {
+  color: rgb(216, 216, 216)
 }
