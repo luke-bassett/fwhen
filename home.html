@@ -21,26 +21,16 @@
   </h1>
   <p>
     <span class="race_name">{{(index .Races 0).Name}}</span>
-  </p>
-  <p>
-    <span>{{(index (index .Races 0).Sessions 0).Name}}</span>
+    <span><br>{{(index (index .Races 0).Sessions 0).Name}}</span>
     <span id="timer00"></span>
-  </p>
-  <p>
-    <span>{{(index (index .Races 0).Sessions 1).Name}}</span>
+    <span><br>{{(index (index .Races 0).Sessions 1).Name}}</span>
     <span id="timer01"></span>
-  </p>
-  <p>
-    <span>{{(index (index .Races 0).Sessions 2).Name}}</span>
+    <span><br>{{(index (index .Races 0).Sessions 2).Name}}</span>
     <span id="timer02"></span>
-  </p>
-  <p>
-    <span>  {{(index (index .Races 0).Sessions 3).Name}}</span>
+    <span><br>{{(index (index .Races 0).Sessions 3).Name}}</span>
     <span id="timer03"></span>
-  </p>
-  <p class="race">
-    <span>{{(index (index .Races 0).Sessions 4).Name}}</span>
-    <span id="timer04"></span>
+    <span class="race"><br>{{(index (index .Races 0).Sessions 4).Name}}</span>
+    <span class="race" id="timer04"></span>
   </p>
 </body>
 

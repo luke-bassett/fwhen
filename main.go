@@ -78,19 +78,31 @@ func parseJson(b []byte) RaceSchedule {
 	return races
 }
 
-// Get duration between time t and each session start time in races.
-func (races RaceSchedule) getDurations(t time.Time) {
+// setTimeToSessions sets the time between time t and each session start time in
+// races.
+func (races RaceSchedule) setTimeToSessions(t time.Time) {
 	for i, r := range races {
 		for j, s := range r.Sessions {
-			races[i].Sessions[j].NsToStart = int(s.StartTime.Sub(t))
+			races[i].Sessions[j].NsToStart = NsUntil(t, s.StartTime)
 		}
 	}
+}
+
+// secondsUntil returns the number of seconds between from until to if positive.
+// If number of seconds is <= 0, returns  if positive. If number of seconds is
+// <= 0, returns 0.
+func NsUntil(from, to time.Time) int {
+	s := int(to.Sub(from))
+	if s < 0 {
+		return 0
+	}
+	return s
 }
 
 func buildRaceSchedule(b []byte) RaceSchedule {
 	races := parseJson(b)
 	races.sortRaces()
-	races.getDurations(time.Now())
+	races.setTimeToSessions(time.Now())
 	return races
 }
 

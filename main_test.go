@@ -52,12 +52,22 @@ func TestSortRaces(t *testing.T) {
 	}
 }
 
-func TestGetDurations(t *testing.T) {
+func TestSetTimeToSessions(t *testing.T) {
 	races := parseJson([]byte(sample_json))
+	// 24 hours
 	tt := time.Date(2022, 10, 27, 18, 0, 0, 0, time.UTC)
-	races.getDurations(tt)
+	races.setTimeToSessions(tt)
+
 	got := races[1].Sessions[0].NsToStart
 	want := int(time.Duration(24) * time.Hour)
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
+	}
+	// already happened
+	tt = time.Date(2050, 6, 14, 12, 23, 44, 0, time.UTC)
+	races.setTimeToSessions(tt)
+	got = races[1].Sessions[0].NsToStart
+	want = 0
 	if got != want {
 		t.Errorf("got %d, wanted %d", got, want)
 	}
