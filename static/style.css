@@ -1,14 +1,15 @@
 * {
 	font-family: courier, monospace;
 	background: black;
-}
-body {
-  padding: 16px;
-}
+  color: rgb(216, 216, 216);
+  font-size: large;
+} 
 .title_1 {
+  font-size: xx-large;
   color: rgb(216, 216, 216);
 }
 .title_2 {
+  font-size: xx-large;
   color: red;
 }
 .race {
@@ -17,6 +18,9 @@ body {
 .race_name {
   font-weight: bold;
 }
-p {
-  color: rgb(216, 216, 216)
+.flex-container {
+  display: flex;
+  column-gap: 1em;
+  align-items: center;
+  justify-content: center;
 }

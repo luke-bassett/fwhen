@@ -13,25 +13,32 @@
   <script>let NsUntilR0S2 = "{{(index (index .Races 0).Sessions 2).NsToStart}}";</script>
   <script>let NsUntilR0S3 = "{{(index (index .Races 0).Sessions 3).NsToStart}}";</script>
   <script>let NsUntilR0S4 = "{{(index (index .Races 0).Sessions 4).NsToStart}}";</script>
-
   <script src="static/timer.js"></script>
 
-  <h1>
-    <span class="title_1">formula</span><span class="title_2">when</span>
-  </h1>
-  <p>
+  <div style="text-align: center;">
+    <h1>
+      <span class="title_1">formula</span><span class="title_2">when</span>
+    </h1>
+
     <span class="race_name">{{(index .Races 0).Name}}</span>
-    <span><br>{{(index (index .Races 0).Sessions 0).Name}}</span>
-    <span id="timer00"></span>
-    <span><br>{{(index (index .Races 0).Sessions 1).Name}}</span>
-    <span id="timer01"></span>
-    <span><br>{{(index (index .Races 0).Sessions 2).Name}}</span>
-    <span id="timer02"></span>
-    <span><br>{{(index (index .Races 0).Sessions 3).Name}}</span>
-    <span id="timer03"></span>
-    <span class="race"><br>{{(index (index .Races 0).Sessions 4).Name}}</span>
-    <span class="race" id="timer04"></span>
-  </p>
+    <div class="flex-container">
+      <div>
+        <span><br>{{(index (index .Races 0).Sessions 0).Name}}</span>
+        <span><br>{{(index (index .Races 0).Sessions 1).Name}}</span>
+        <span><br>{{(index (index .Races 0).Sessions 2).Name}}</span>
+        <span><br>{{(index (index .Races 0).Sessions 3).Name}}</span>
+        <span class="race"><br>{{(index (index .Races 0).Sessions 4).Name}}</span>
+      </div>
+      <div>
+        <br>
+        <span id="timer00"></span><br>
+        <span id="timer01"></span><br>
+        <span id="timer02"></span><br>
+        <span id="timer03"></span><br>
+        <span class="race" id="timer04"></span><br>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
