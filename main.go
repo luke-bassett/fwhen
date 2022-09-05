@@ -17,13 +17,13 @@ type Page struct {
 
 type Data struct {
 	Page  Page
-	Races RaceSchedule
+	Races Races
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	data := Data{
 		Page:  Page{Title: "FormulaWhen"},
-		Races: buildRaceSchedule(readFile(raceDataPath)),
+		Races: buildRaces(readFile(raceDataPath)),
 	}
 
 	t, err := template.ParseFiles("home.html")
@@ -47,7 +47,7 @@ func main() {
 
 const raceDataPath = "data/2022_sessions.json"
 
-type RaceSchedule []Race
+type Races []Race
 
 type Race struct {
 	Name     string    `json:"Name"`
@@ -69,8 +69,8 @@ func readFile(fp string) []byte {
 	return b
 }
 
-func parseJson(b []byte) RaceSchedule {
-	var races RaceSchedule
+func parseJson(b []byte) Races {
+	var races Races
 	e := json.Unmarshal(b, &races)
 	if e != nil {
 		panic(e)
@@ -80,7 +80,7 @@ func parseJson(b []byte) RaceSchedule {
 
 // setTimeToSessions sets the time between time t and each session start time in
 // races.
-func (races RaceSchedule) setTimeToSessions(t time.Time) {
+func (races Races) setTimeToSessions(t time.Time) {
 	for i, r := range races {
 		for j, s := range r.Sessions {
 			races[i].Sessions[j].NsToStart = NsUntil(t, s.StartTime)
@@ -99,15 +99,31 @@ func NsUntil(from, to time.Time) int {
 	return s
 }
 
-func buildRaceSchedule(b []byte) RaceSchedule {
+func buildRaces(b []byte) Races {
 	races := parseJson(b)
 	races.sortRaces()
 	races.setTimeToSessions(time.Now())
+	races = removePastRaces(races, time.Now())
 	return races
 }
 
-func (r RaceSchedule) sortRaces() {
+func (r Races) sortRaces() {
 	sort.Slice(r, func(i, j int) bool {
 		return r[i].Sessions[0].StartTime.Before(r[j].Sessions[0].StartTime)
 	})
+}
+
+// removePastRaces removes all races from a Races struct where the race
+// start time is after t.
+func removePastRaces(rr Races, t time.Time) Races {
+	ret := Races{}
+	for _, r := range rr {
+		for _, s := range r.Sessions {
+			if s.Name == "race" && s.EndTime.After(t) {
+				fmt.Println(r.Name)
+				ret = append(ret, r)
+			}
+		}
+	}
+	return ret
 }

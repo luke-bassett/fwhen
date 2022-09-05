@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -13,6 +14,11 @@ const sample_json = `
 				"Name": "fp1",
 				"StartTime": "2022-11-11T15:30:00Z",
 				"EndTime": "2022-11-11T16:30:00Z"
+      },
+      		{
+				"Name": "race",
+				"StartTime": "2022-11-12T15:30:00Z",
+				"EndTime": "2022-11-12T16:30:00Z"
       }
 	]
 },
@@ -23,6 +29,11 @@ const sample_json = `
 				"Name": "fp2",
 				"StartTime": "2022-10-28T18:00:00Z",
 				"EndTime": "2022-10-28T19:00:00Z"
+			},
+	        {
+				"Name": "race",
+				"StartTime": "2022-10-29T18:00:00Z",
+				"EndTime": "2022-10-29T19:00:00Z"
 			}
 	]
 }]`
@@ -74,7 +85,7 @@ func TestSetTimeToSessions(t *testing.T) {
 }
 
 func TestBuildSchedule(t *testing.T) {
-	races := buildRaceSchedule([]byte(sample_json))
+	races := buildRaces([]byte(sample_json))
 	got := races[1].Sessions[0].Name
 	want := "fp1"
 	if got != want {
@@ -84,5 +95,33 @@ func TestBuildSchedule(t *testing.T) {
 	want2, _ := time.Parse(time.RFC3339, "2022-10-28T19:00:00Z")
 	if got2 != want2 {
 		t.Errorf("got %s, wanted %s", got2, want2)
+	}
+}
+
+func TestRemovePastRaces(t *testing.T) {
+	races := buildRaces([]byte(sample_json))
+
+	// test time outside session
+	races = removePastRaces(races, time.Date(2022, 11, 01, 12, 0, 0, 0, time.UTC))
+	fmt.Println(races)
+	nGot := len(races)
+	nWant := 1
+	if nGot != nWant {
+		t.Errorf("Have %d races, wanted %d", nGot, nWant)
+	}
+	nameGot := races[0].Name
+	nameWant := "brazil"
+	if nameGot != nameWant {
+		t.Errorf("Next race is %s, wanted %s", nameGot, nameWant)
+	}
+
+	// test time during session (should keep race until scheduled END time)
+	races = buildRaces([]byte(sample_json))
+	races = removePastRaces(races, time.Date(2022, 10, 29, 18, 30, 0, 0, time.UTC))
+	fmt.Println(races)
+	nGot = len(races)
+	nWant = 2
+	if nGot != nWant {
+		t.Errorf("Have %d races, wanted %d", nGot, nWant)
 	}
 }
