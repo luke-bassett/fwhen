@@ -8,6 +8,7 @@
 </head>
 
 <body>
+  <script src="static/test.js"></script>
   <script>let NsUntilR0S0 = "{{(index (index .Races 0).Sessions 0).NsToStart}}";</script>
   <script>let NsUntilR0S1 = "{{(index (index .Races 0).Sessions 1).NsToStart}}";</script>
   <script>let NsUntilR0S2 = "{{(index (index .Races 0).Sessions 2).NsToStart}}";</script>
@@ -19,6 +20,7 @@
     <h1>
       <span class="title_1">formula</span><span class="title_2">when</span>
     </h1>
+    <p><span id="testy"></span></p>
 
     <span class="race_name">{{(index .Races 0).Name}}</span>
     <div class="flex-container">

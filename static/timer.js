@@ -2,8 +2,8 @@
 function startTimer(duration, display) {
     var timer = duration, d, h, m, s;
     setInterval(function () {
-        d = parseInt(timer / 86400, 10) 
-        h = parseInt(timer % 86400 / 3600, 10)
+        d = parseInt(timer / 86400, 10);
+        h = parseInt(timer % 86400 / 3600, 10);
         m = parseInt(timer % 3600 / 60, 10);
         s = parseInt(timer % 60, 10);
 
