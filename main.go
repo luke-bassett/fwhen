@@ -13,17 +13,18 @@ import (
 
 type Page struct {
 	Title string
+	Data  string
 }
 
 type Data struct {
-	Page  Page
-	Races Races
+	Page Page
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	data := Data{
-		Page:  Page{Title: "FormulaWhen"},
-		Races: buildRaces(readFile(raceDataPath)),
+		Page: Page{
+			Title: "FormulaWhen",
+			Data:  prepRaceData(raceDataPath)},
 	}
 
 	t, err := template.ParseFiles("home.html")
@@ -59,6 +60,12 @@ type Session struct {
 	StartTime time.Time `json:"StartTime"` // RFC3339
 	EndTime   time.Time `json:"EndTime"`   // RFC3339
 	NsToStart int
+}
+
+func prepRaceData(raceDataPath string) string {
+	fileData := readFile(raceDataPath)
+	races := buildRaces(fileData)
+	return racesToJson(races)
 }
 
 func readFile(fp string) []byte {
@@ -107,6 +114,14 @@ func buildRaces(b []byte) Races {
 	return races
 }
 
+func racesToJson(r Races) string {
+	jsonBytes, err := json.Marshal(r)
+	if err != nil {
+		panic(err)
+	}
+	return string(jsonBytes)
+}
+
 func (r Races) sortRaces() {
 	sort.Slice(r, func(i, j int) bool {
 		return r[i].Sessions[0].StartTime.Before(r[j].Sessions[0].StartTime)
@@ -120,7 +135,6 @@ func removePastRaces(rr Races, t time.Time) Races {
 	for _, r := range rr {
 		for _, s := range r.Sessions {
 			if s.Name == "race" && s.EndTime.After(t) {
-				fmt.Println(r.Name)
 				ret = append(ret, r)
 			}
 		}

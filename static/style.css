@@ -3,6 +3,8 @@
 	background: black;
   color: rgb(216, 216, 216);
   font-size: large;
+  justify-content: center;
+  text-align: center;
 } 
 .title_1 {
   font-size: xx-large;
@@ -17,10 +19,11 @@
 }
 .race_name {
   font-weight: bold;
+  justify-content: center;
 }
 .flex-container {
   display: flex;
-  column-gap: 1em;
-  align-items: center;
   justify-content: center;
+  column-gap: 1em;
+  align-items: flex-start;
 }

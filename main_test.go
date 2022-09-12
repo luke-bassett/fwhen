@@ -84,19 +84,19 @@ func TestSetTimeToSessions(t *testing.T) {
 	}
 }
 
-func TestBuildSchedule(t *testing.T) {
-	races := buildRaces([]byte(sample_json))
-	got := races[1].Sessions[0].Name
-	want := "fp1"
-	if got != want {
-		t.Errorf("got %s, wanted %s", got, want)
-	}
-	got2 := races[0].Sessions[0].EndTime
-	want2, _ := time.Parse(time.RFC3339, "2022-10-28T19:00:00Z")
-	if got2 != want2 {
-		t.Errorf("got %s, wanted %s", got2, want2)
-	}
-}
+// func TestBuildSchedule(t *testing.T) {
+// 	races := buildRaces([]byte(sample_json))
+// 	got := races[1].Sessions[0].Name
+// 	want := "fp1"
+// 	if got != want {
+// 		t.Errorf("got %s, wanted %s", got, want)
+// 	}
+// 	got2 := races[0].Sessions[0].EndTime
+// 	want2, _ := time.Parse(time.RFC3339, "2022-10-28T19:00:00Z")
+// 	if got2 != want2 {
+// 		t.Errorf("got %s, wanted %s", got2, want2)
+// 	}
+// }
 
 func TestRemovePastRaces(t *testing.T) {
 	races := buildRaces([]byte(sample_json))
