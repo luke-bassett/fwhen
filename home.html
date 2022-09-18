@@ -33,45 +33,40 @@
 
       // get data
       const raceData = JSON.parse("{{.Page.Data}}")
-
       var racesDiv = document.getElementById("races")
 
       for (i = 0; i < raceData.length; i++) {  
         let race = raceData[i]
-
-        // add name row
+        
         let raceNameSpan = document.createElement("span")
         raceNameSpan.innerHTML = race.Name
         raceNameSpan.className = "race_name"
-        racesDiv.appendChild(raceNameSpan)
+        racesDiv.append(raceNameSpan)
 
-        // create flex container
-        let flexDiv = document.createElement("div")
-        flexDiv.className = "flex-container"
-        // create session name div and timer div
+        let raceDiv = document.createElement("div")
+        raceDiv.className = "race_details"
         let sessionNamesDiv = document.createElement("div") 
-        let timerDiv = document.createElement("div") 
+        sessionNamesDiv.className = "session_names"
+        let timersDiv = document.createElement("div") 
+        timersDiv.className = "timers"
 
         for (j = 0; j < race.Sessions.length; j++) {
           let session = race.Sessions[j]
 
-          // add session names
           let sessionNameSpan = document.createElement("span")
           sessionNameSpan.innerHTML = session.Name
+          sessionNameSpan.className = "session_name"
           sessionNamesDiv.appendChild(sessionNameSpan)
           sessionNamesDiv.appendChild(document.createElement("br"))
 
-          // add timers
-          let sessionTimerSpan = document.createElement("span")
-          // sessionTimerSpan.innerHTML = session.NsToStart
-          startTimer(session.NsToStart / 10**9, sessionTimerSpan)
-          timerDiv.appendChild(sessionTimerSpan)
-          timerDiv.appendChild(document.createElement("br"))
+          let timerSpan = document.createElement("span")
+          startTimer(session.NsToStart / 10**9, timerSpan)
+          timersDiv.appendChild(timerSpan)
+          timersDiv.appendChild(document.createElement("br"))
         }
-        flexDiv.appendChild(sessionNamesDiv)
-        flexDiv.appendChild(timerDiv)
-        racesDiv.appendChild(flexDiv)
-
+        raceDiv.appendChild(sessionNamesDiv)
+        raceDiv.appendChild(timersDiv)
+        racesDiv.appendChild(raceDiv)
       }
     }
   </script>
@@ -79,6 +74,6 @@
     <h1>
       <span class="title_1">formula</span><span class="title_2">when</span>
     </h1>
-    <div id="races"></div>
+    <div id="races" class="races"></div>
 </body>
 </html>
