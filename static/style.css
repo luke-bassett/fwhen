@@ -3,7 +3,6 @@
 	background: black;
   color: rgb(216, 216, 216);
   font-size: large;
-  text-align: center;
 } 
 .title_1 {
   font-size: xx-large;
@@ -16,26 +15,29 @@
 .races {
   display: flex;
   flex-direction: column;
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
   max-width: 640px;
+  justify-content: center;
 }
 .race_name {
   font-weight: bold;
   text-align: left;
-  border: 1px solid yellow;
+  padding-top: 1ch;
+  /* border: 1px solid yellow; */
 }
 .race_details {
   display: flex;
   flex-direction: row;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   column-gap: 10px;
 }
 .session_names {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid purple;
+  /* border: 1px solid purple; */
+  min-width: 7ch;
 }
-.timers {
+/* .timers {
   border: 1px solid orange;
-}
+} */
