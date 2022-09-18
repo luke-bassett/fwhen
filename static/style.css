@@ -1,17 +1,9 @@
 * {
 	font-family: courier, monospace;
-	background: black;
+	background: rgb(30,30,30);
   color: rgb(216, 216, 216);
   font-size: large;
 } 
-.title_1 {
-  font-size: xx-large;
-  color: rgb(216, 216, 216);
-}
-.title_2 {
-  font-size: xx-large;
-  color: red;
-}
 .races {
   display: flex;
   flex-direction: column;
