@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func TestLoadCalendar(t *testing.T) {
-	c, err := loadCalendar()
+func TestInitCalendar(t *testing.T) {
+	c, err := initCalendar()
 	if err != nil {
 		t.Error(err)
 	}

@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 )
 
 const scheduleJsonFile = "2023-f1-schedule.json"
+const dateFormat = "2006-01-02 15:04:05"
 
 type Calendar []Race
 
@@ -24,7 +26,7 @@ type Session struct {
 	EndTime   time.Time `json:"end"`
 }
 
-func loadCalendar() (Calendar, error) {
+func initCalendar() (Calendar, error) {
 	var c Calendar
 	rawJson, err := os.ReadFile(scheduleJsonFile)
 	if err != nil {
@@ -36,10 +38,28 @@ func loadCalendar() (Calendar, error) {
 	return c, nil
 }
 
-func main() {
-	c, err := loadCalendar()
+func (c Calendar) format() string {
+	var str string
+	for _, r := range c {
+		str += fmt.Sprintf("%v - %v\n", r.Name, r.Location)
+		for _, s := range r.Sessions {
+			str += fmt.Sprintf("  %-12v%v\n", s.Name, s.StartTime.Format(dateFormat))
+		}
+	}
+	return str
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	c, err := initCalendar()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%+v", c)
+	fmt.Fprintf(w, "Current time [UTC]: %+v\n", time.Now().UTC().Format(dateFormat))
+	fmt.Fprintln(w)
+	fmt.Fprint(w, c.format())
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
