@@ -54,8 +54,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Fprintf(w, "Current time [UTC]: %+v\n", time.Now().UTC().Format(dateFormat))
-	fmt.Fprintln(w)
+	fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
+	fmt.Fprintf(w, "Page loaded: %+v\n\n", time.Now().UTC().Format(dateFormat))
 	fmt.Fprint(w, c.format())
 }
 
