@@ -1,1 +1,1 @@
-Source data is from f1calendar.com, ICS files can be generated here: https://f1calendar.com/generate
+A silly little webpage to help remember when the races are on.
