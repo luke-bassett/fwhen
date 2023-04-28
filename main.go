@@ -12,7 +12,11 @@ import (
 const scheduleJsonFile = "2023-f1-schedule.json"
 const dateFormat = "2006-01-02 15:04:05"
 
-type Calendar []Race
+// type Calendar []Race
+type Calendar struct {
+	Races         []Race
+	ReferenceTime time.Time
+}
 
 type Race struct {
 	Name     string    `json:"gp"`
@@ -26,21 +30,21 @@ type Session struct {
 	EndTime   time.Time `json:"end"`
 }
 
-func initCalendar() (Calendar, error) {
-	var c Calendar
+func initCalendar() (*Calendar, error) {
+	c := Calendar{ReferenceTime: time.Now().UTC()}
 	rawJson, err := os.ReadFile(scheduleJsonFile)
 	if err != nil {
 		return nil, err
 	}
-	if err := json.Unmarshal(rawJson, &c); err != nil {
+	if err := json.Unmarshal(rawJson, &c.Races); err != nil {
 		return nil, err
 	}
-	return c, nil
+	return &c, nil
 }
 
 func (c Calendar) format() string {
 	var str string
-	for _, r := range c {
+	for _, r := range c.Races {
 		str += fmt.Sprintf("%v - %v\n", r.Name, r.Location)
 		for _, s := range r.Sessions {
 			str += fmt.Sprintf("  %-12v%v\n", s.Name, s.StartTime.Format(dateFormat))
@@ -55,7 +59,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
-	fmt.Fprintf(w, "Page loaded: %+v\n\n", time.Now().UTC().Format(dateFormat))
+	fmt.Fprintf(w, "Page loaded: %+v\n\n", c.ReferenceTime.Format(dateFormat))
 	fmt.Fprint(w, c.format())
 }
 
