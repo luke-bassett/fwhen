@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 	"time"
 )
 
@@ -16,6 +17,7 @@ const dateFormat = "2006-01-02 15:04:05"
 type Calendar struct {
 	Races         []Race
 	ReferenceTime time.Time
+	Test          string
 }
 
 type Race struct {
@@ -58,9 +60,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
-	fmt.Fprintf(w, "Page loaded: %+v\n\n", c.ReferenceTime.Format(dateFormat))
-	fmt.Fprint(w, c.format())
+	t, _ := template.ParseFiles("home.html")
+	c.Test = "THIS IS ME"
+	t.Execute(w, c)
+
+	// fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
+	// fmt.Fprintf(w, "Page loaded: %+v\n\n", c.ReferenceTime.Format(dateFormat))
+	// fmt.Fprint(w, c.format())
 }
 
 func main() {
