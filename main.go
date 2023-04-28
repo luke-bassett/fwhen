@@ -14,8 +14,8 @@ const dateFormat = "2006-01-02 15:04:05"
 
 // type Calendar []Race
 type Calendar struct {
-	Races        []Race
-	RefernceTime time.Time
+	Races         []Race
+	ReferenceTime time.Time
 }
 
 type Race struct {
@@ -31,7 +31,7 @@ type Session struct {
 }
 
 func initCalendar() (*Calendar, error) {
-	var c Calendar
+	c := Calendar{ReferenceTime: time.Now().UTC()}
 	rawJson, err := os.ReadFile(scheduleJsonFile)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
-	fmt.Fprintf(w, "Page loaded: %+v\n\n", time.Now().UTC().Format(dateFormat))
+	fmt.Fprintf(w, "Page loaded: %+v\n\n", c.ReferenceTime.Format(dateFormat))
 	fmt.Fprint(w, c.format())
 }
 
