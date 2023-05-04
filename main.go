@@ -60,7 +60,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t, _ := template.ParseFiles("home.html")
+	t, _ := template.ParseFiles("templates/home.html")
 	t.Execute(w, c)
 }
 
