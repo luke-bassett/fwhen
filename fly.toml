@@ -10,7 +10,7 @@ primary_region = "sea"
   builder = "paketobuildpacks/builder:base"
   buildpacks = ["gcr.io/paketo-buildpacks/go"]
   [build.args]
-    BP_KEEP_FILES = "2023-f1-schedule.json"
+    BP_KEEP_FILES = "static/*"
 
 
 [env]
