@@ -13,11 +13,10 @@ import (
 const scheduleJsonFile = "2023-f1-schedule.json"
 const dateFormat = "2006-01-02 15:04:05"
 
-// type Calendar []Race
 type Calendar struct {
 	Races         []Race
 	ReferenceTime time.Time
-	Test          string
+	Text          string
 }
 
 type Race struct {
@@ -41,6 +40,7 @@ func initCalendar() (*Calendar, error) {
 	if err := json.Unmarshal(rawJson, &c.Races); err != nil {
 		return nil, err
 	}
+	c.Text = c.format()
 	return &c, nil
 }
 
@@ -61,15 +61,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	t, _ := template.ParseFiles("home.html")
-	c.Test = "THIS IS ME"
 	t.Execute(w, c)
-
-	// fmt.Fprintf(w, "Formula 1 2023 -- All times UTC\n")
-	// fmt.Fprintf(w, "Page loaded: %+v\n\n", c.ReferenceTime.Format(dateFormat))
-	// fmt.Fprint(w, c.format())
 }
 
 func main() {
 	http.HandleFunc("/", handler)
+	http.Handle("/static/", http.FileServer(http.Dir(".")))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

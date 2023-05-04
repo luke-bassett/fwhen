@@ -1,0 +1,22 @@
+* {
+  padding: 0px;
+  margin: .1em;
+}
+
+body {
+  color: white;
+  background-color: #123;
+  font-family: monospace;
+}
+
+p {
+  padding-bottom: 1em;
+}
+
+.first-col {
+  min-width: 10em;
+}
+
+table {
+  padding-bottom: 1em;
+}
