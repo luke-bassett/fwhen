@@ -1,7 +1,4 @@
-# fly.toml app configuration file generated for formulawhen on 2023-04-26T20:03:29-07:00
-#
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
 
 app = "formulawhen"
 primary_region = "sea"
