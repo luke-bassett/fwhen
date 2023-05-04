@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FormulaWhen</title>
+    <link rel="stylesheet" href="static/styles.css" />
+</head>
+
+<body>
+    <h2>Formula 1 2023</h2>
+    <table>
+        <tbody>
+            <tr>
+                <td class="first-col">Page Loaded</td>
+                <td>{{ .ReferenceTime.Format "2006-01-02 15:04" }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{ range .Races}}
+    <h3>{{.Name}}</h3>
+    <table>
+        <tbody>
+            {{ range .Sessions }}
+            <tr>
+                <td class="first-col">{{.Name}}</td>
+                <td>{{.StartTime.Format "2006-01-02 15:04"}}</td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+    {{ end }}
+</body>
+
+</html>

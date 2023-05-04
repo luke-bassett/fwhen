@@ -39,19 +39,19 @@ func TestFormat(t *testing.T) {
 }
 
 func TestHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "/health-check", nil)
+	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	rr := httptest.NewRecorder()
+	r := httptest.NewRecorder()
 	handler := http.HandlerFunc(handler)
-	handler.ServeHTTP(rr, req)
-	if status := rr.Code; status != http.StatusOK {
+	handler.ServeHTTP(r, req)
+	if status := r.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
-	want := "Formula 1 2023 -- All times UTC"
-	got := strings.Split(rr.Body.String(), "\n")[0]
+	want := "<!DOCTYPE html>"
+	got := strings.Split(r.Body.String(), "\n")[0]
 	if got != want {
 		t.Errorf("handler returned unexpected first line of body: got %v want %v",
 			got, want)
