@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const scheduleJsonFile = "2023-f1-schedule.json"
+const scheduleJsonFile = "static/2023-f1-schedule.json"
 const dateFormat = "2006-01-02 15:04:05"
 
 type Calendar struct {
