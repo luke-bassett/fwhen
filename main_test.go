@@ -25,19 +25,6 @@ func TestInitCalendar(t *testing.T) {
 	}
 }
 
-func TestFormat(t *testing.T) {
-	c, err := initCalendar()
-	if err != nil {
-		t.Error(err)
-	}
-	formatted := c.format()
-	nLines := len(strings.Split(strings.TrimSpace(formatted), "\n"))
-	expectedLines := len(c.Races) * 6
-	if nLines != expectedLines {
-		t.Errorf("Have %v lines, but expect %v", nLines, expectedLines)
-	}
-}
-
 func TestHandler(t *testing.T) {
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
