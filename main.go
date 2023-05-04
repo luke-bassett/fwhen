@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,12 +10,10 @@ import (
 )
 
 const scheduleJsonFile = "static/2023-f1-schedule.json"
-const dateFormat = "2006-01-02 15:04:05"
 
 type Calendar struct {
 	Races         []Race
 	ReferenceTime time.Time
-	Text          string
 }
 
 type Race struct {
@@ -28,7 +25,7 @@ type Race struct {
 type Session struct {
 	Name      string    `json:"session"`
 	StartTime time.Time `json:"start"`
-	EndTime   time.Time `json:"end"`
+	TimeUntil time.Duration
 }
 
 func initCalendar() (*Calendar, error) {
@@ -40,19 +37,7 @@ func initCalendar() (*Calendar, error) {
 	if err := json.Unmarshal(rawJson, &c.Races); err != nil {
 		return nil, err
 	}
-	c.Text = c.format()
 	return &c, nil
-}
-
-func (c Calendar) format() string {
-	var str string
-	for _, r := range c.Races {
-		str += fmt.Sprintf("%v - %v\n", r.Name, r.Location)
-		for _, s := range r.Sessions {
-			str += fmt.Sprintf("  %-12v%v\n", s.Name, s.StartTime.Format(dateFormat))
-		}
-	}
-	return str
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
