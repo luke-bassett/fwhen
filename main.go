@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 	"time"
 )
 
@@ -37,7 +37,17 @@ func initCalendar() (*Calendar, error) {
 	if err := json.Unmarshal(rawJson, &c.Races); err != nil {
 		return nil, err
 	}
+	c.CalculateTimeUntil()
 	return &c, nil
+}
+
+func (c *Calendar) CalculateTimeUntil() {
+	for _, r := range c.Races {
+		for i := range r.Sessions {
+			s := &r.Sessions[i]
+			s.TimeUntil = s.StartTime.Sub(c.ReferenceTime)
+		}
+	}
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
