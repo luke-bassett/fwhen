@@ -44,3 +44,63 @@ func TestHandler(t *testing.T) {
 			got, want)
 	}
 }
+
+func TestCalculateTimeUntil(t *testing.T) {
+	now := time.Now().UTC()
+	calendar := &Calendar{
+		Races: []Race{
+			{
+				Name:     "Race 1",
+				Location: "Location 1",
+				Sessions: []Session{
+					{
+						Name:      "Session 1",
+						StartTime: now.Add(time.Hour),
+					},
+					{
+						Name:      "Session 2",
+						StartTime: now.Add(2 * time.Hour),
+					},
+				},
+			},
+		},
+		ReferenceTime: now,
+	}
+	calendar.CalculateTimeUntil()
+	s1Got := calendar.Races[0].Sessions[0].TimeUntil
+	if s1Got != time.Hour {
+		t.Errorf("Session 1 time until is incorrect: got %v want %v",
+			s1Got, time.Hour)
+	}
+	s2Got := calendar.Races[0].Sessions[0].TimeUntil
+	if s2Got != time.Hour {
+		t.Errorf("Session 2 time until is incorrect: got %v want %v",
+			s2Got, time.Hour)
+	}
+}
+
+func TestFormatDuration(t *testing.T) {
+	// Duration is positive
+	duration1 := time.Hour*24 + time.Hour*2 + time.Minute*30
+	expectedResult1 := "  1d 02h 30m"
+	result1 := formatDuration(duration1)
+	if result1 != expectedResult1 {
+		t.Errorf("Expected '%s', got '%s'", expectedResult1, result1)
+	}
+
+	// Duration is zero
+	duration2 := time.Duration(0)
+	expectedResult2 := "  0d 00h 00m"
+	result2 := formatDuration(duration2)
+	if result2 != expectedResult2 {
+		t.Errorf("Expected '%s', got '%s'", expectedResult2, result2)
+	}
+
+	// Duration is negative
+	duration3 := -time.Hour*3 - time.Minute*15
+	expectedResult3 := "     ---"
+	result3 := formatDuration(duration3)
+	if result3 != expectedResult3 {
+		t.Errorf("Expected '%s', got '%s'", expectedResult3, result3)
+	}
+}

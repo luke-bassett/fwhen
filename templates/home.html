@@ -8,6 +8,7 @@
 
 <body>
     <h2>Formula 1 2023</h2>
+    <p>All times UTC - Always spoiler free</p>
     <table>
         <tbody>
             <tr>
@@ -24,7 +25,7 @@
             <tr>
                 <td class="first-col">{{ .Name }}</td>
                 <td class="second-col">{{ .StartTime.Format "2006-01-02 15:04" }}</td>
-                <td>{{ .TimeUntil.Milliseconds }}</td>
+                <td style="white-space: pre;">{{ .TimeUntilString }}</td>
             </tr>
             {{ end }}
         </tbody>

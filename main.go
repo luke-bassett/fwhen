@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -17,15 +18,16 @@ type Calendar struct {
 }
 
 type Race struct {
-	Name     string    `json:"gp"`
-	Location string    `json:"location"`
-	Sessions []Session `json:"sessions"`
+	Name     string `json:"gp"`
+	Location string `json:"location"`
+	Sessions []Session
 }
 
 type Session struct {
-	Name      string    `json:"session"`
-	StartTime time.Time `json:"start"`
-	TimeUntil time.Duration
+	Name            string    `json:"session"`
+	StartTime       time.Time `json:"start"`
+	TimeUntil       time.Duration
+	TimeUntilString string
 }
 
 func initCalendar() (*Calendar, error) {
@@ -42,12 +44,23 @@ func initCalendar() (*Calendar, error) {
 }
 
 func (c *Calendar) CalculateTimeUntil() {
-	for _, r := range c.Races {
-		for i := range r.Sessions {
-			s := &r.Sessions[i]
-			s.TimeUntil = s.StartTime.Sub(c.ReferenceTime)
+	for r := range c.Races {
+		for s := range c.Races[r].Sessions {
+			c.Races[r].Sessions[s].TimeUntil = c.Races[r].Sessions[s].StartTime.Sub(c.ReferenceTime)
+			c.Races[r].Sessions[s].TimeUntilString = formatDuration(c.Races[r].Sessions[s].TimeUntil)
 		}
 	}
+}
+
+func formatDuration(duration time.Duration) string {
+	if duration < 0 {
+		return "     ---"
+	}
+	return fmt.Sprintf("%3dd %02dh %02dm",
+		int(duration.Hours()/24),
+		int(duration.Hours())%24,
+		int(duration.Minutes())%60,
+	)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
