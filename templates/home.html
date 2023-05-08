@@ -8,22 +8,24 @@
 
 <body>
     <h2>Formula 1 2023</h2>
+    <p>All times UTC - Always spoiler free</p>
     <table>
         <tbody>
             <tr>
                 <td class="first-col">Page Loaded</td>
-                <td>{{ .ReferenceTime.Format "2006-01-02 15:04" }}</td>
+                <td class="second-col">{{ .ReferenceTime.Format "2006-01-02 15:04" }}</td>
             </tr>
         </tbody>
     </table>
     {{ range .Races}}
-    <h3>{{.Name}}</h3>
+    <h3>{{ .Name }}</h3>
     <table>
         <tbody>
             {{ range .Sessions }}
             <tr>
-                <td class="first-col">{{.Name}}</td>
-                <td>{{.StartTime.Format "2006-01-02 15:04"}}</td>
+                <td class="first-col">{{ .Name }}</td>
+                <td class="second-col">{{ .StartTime.Format "2006-01-02 15:04" }}</td>
+                <td style="white-space: pre;">{{ .TimeUntilString }}</td>
             </tr>
             {{ end }}
         </tbody>

@@ -17,6 +17,10 @@ p {
   min-width: 10em;
 }
 
+.second-col {
+  min-width: 12em;
+}
+
 table {
   padding-bottom: 1em;
 }
