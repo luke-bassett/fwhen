@@ -82,7 +82,7 @@ func TestCalculateTimeUntil(t *testing.T) {
 func TestFormatDuration(t *testing.T) {
 	// Duration is positive
 	duration1 := time.Hour*24 + time.Hour*2 + time.Minute*30
-	expectedResult1 := "  1d 02h 30m"
+	expectedResult1 := "  1d 02h 30m 00s"
 	result1 := formatDuration(duration1)
 	if result1 != expectedResult1 {
 		t.Errorf("Expected '%s', got '%s'", expectedResult1, result1)
@@ -90,7 +90,7 @@ func TestFormatDuration(t *testing.T) {
 
 	// Duration is zero
 	duration2 := time.Duration(0)
-	expectedResult2 := "  0d 00h 00m"
+	expectedResult2 := "  0d 00h 00m 00s"
 	result2 := formatDuration(duration2)
 	if result2 != expectedResult2 {
 		t.Errorf("Expected '%s', got '%s'", expectedResult2, result2)
