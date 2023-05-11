@@ -9,14 +9,6 @@
 <body>
     <h2>Formula 1 2023</h2>
     <p>All times UTC</p>
-    <table>
-        <tbody>
-            <tr>
-                <td class="first-col">Page Loaded</td>
-                <td class="second-col">{{ .ReferenceTime.Format "2006-01-02 15:04" }}</td>
-            </tr>
-        </tbody>
-    </table>
     {{ range .Races}}
     <h3>{{ .Name }}</h3>
     <table>
