@@ -1,5 +1,5 @@
 html {
-  max-width: 60ch;
+  max-width: 70ch;
   /* larger spacing on larger screens, very small spacing on tiny screens */
   padding: calc(1vmin + .5rem);
   /* shorthand for margin-left/margin-right */
@@ -10,6 +10,10 @@ html {
   font-family: monospace
 }
 
+h2 {
+  white-space: nowrap;
+}
+
 /* increase line-height for everything except headings */
 body :not(:is(h1,h2,h3,h4,h5,h6)) {
   line-height: 1.15;
@@ -17,10 +21,6 @@ body :not(:is(h1,h2,h3,h4,h5,h6)) {
 
 .race-heading {
   margin-bottom: 0px;
-}
-
-.name {
-  font-weight: bold;
 }
 
 .trailing-context {
@@ -36,4 +36,5 @@ body :not(:is(h1,h2,h3,h4,h5,h6)) {
 .countdown {
   text-align: right;
   min-width: 10.5rem;
+  padding-right: 1.5rem;
 }
