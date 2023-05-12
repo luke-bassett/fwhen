@@ -4,10 +4,11 @@
 <head>
     <title>FormulaWhen</title>
     <link rel="stylesheet" href="static/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <h2>Formula 1 2023<span class="trailing-context"> all times UTC</span></h2>
+    <h2>Formula 1 2023 Schedule<span class="trailing-context"> all times UTC</span></h2>
     {{ range .Races}}
     <h3 class="race-heading"><span class="name">{{ .Name }}</span><span class="trailing-context"> {{ .Location }}</span></h3>
     <table>
