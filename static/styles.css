@@ -22,5 +22,9 @@ body :not(:is(h1,h2,h3,h4,h5,h6)) {
 .trailing-context {
   font-weight: normal;
   font-size: 0.75em;
-  color: #aaa;
+  color: #999;
+}
+
+.cell {
+  min-width: 11em;
 }

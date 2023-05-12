@@ -14,9 +14,9 @@
         <tbody>
             {{ range .Sessions }}
             <tr>
-                <td class="session">{{ .Name }}</td>
-                <td class="start-time">{{ .StartTime.Format "2006-01-02 15:04" }}</td>
-                <td class="countdown" stype="white-space: pre;" id='countdown-{{ .StartTime.Format "200601021504" }}'>{{ .TimeUntilString }}</td>
+                <td class="cell session">{{ .Name }}</td>
+                <td class="cell start-time">{{ .StartTime.Format "2006-01-02 15:04" }}</td>
+                <td class="cell countdown" stype="white-space: pre;" id='countdown-{{ .StartTime.Format "200601021504" }}'>{{ .TimeUntilString }}</td>
             </tr>
             {{ end }}
         </tbody>
@@ -60,7 +60,7 @@
         }
 
         // Get the session start times and update countdown timers
-        var sessionStartTimes = document.getElementsByClassName("second-col");
+        var sessionStartTimes = document.getElementsByClassName("start-time");
         for (var i = 0; i < sessionStartTimes.length; i++) {
             var startTime = new Date(sessionStartTimes[i].textContent + "+0000").getTime();
             var elementId = "countdown-" + sessionStartTimes[i].textContent.replace(/\D/g, "");
