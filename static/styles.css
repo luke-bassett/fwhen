@@ -1,32 +1,26 @@
-* {
-  padding: 0px;
-  margin: .1em;
+html {
+  max-width: 70ch;
+  /* larger spacing on larger screens, very small spacing on tiny screens */
+  padding: calc(1vmin + .5rem);
+  /* shorthand for margin-left/margin-right */
+  margin-inline: auto;
+  /* fluid sizing: https://frontaid.io/blog/fluid-typography-2d-css-locks-clamp/ */
+  font-size: clamp(1em, 0.909em + 0.45vmin, 1.25em);
+  /* use system font stack: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+  font-family: monospace
 }
 
-body {
-  color: white;
-  background-color: #123;
-  font-family: monospace;
+/* increase line-height for everything except headings */
+body :not(:is(h1,h2,h3,h4,h5,h6)) {
+  line-height: 1.15;
 }
 
-p {
-  padding-bottom: 1em;
+.name {
+  font-weight: bold;
 }
 
-.first-col {
-  min-width: 10em;
-}
-
-.second-col {
-  min-width: 12em;
-  text-align: right;
-}
-
-.third-col {
-  min-width: 11em;
-  text-align: right;
-}
-
-table {
-  padding-bottom: 1em;
+.trailing-context {
+  font-weight: normal;
+  font-size: 0.75em;
+  color: #aaa;
 }
