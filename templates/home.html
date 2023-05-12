@@ -9,7 +9,7 @@
 <body>
     <h2>Formula 1 2023<span class="trailing-context"> all times UTC</span></h2>
     {{ range .Races}}
-    <h3><span class="name">{{ .Name }}</span><span class="trailing-context"> {{ .Location }}</span></h3>
+    <h3 class="race-heading"><span class="name">{{ .Name }}</span><span class="trailing-context"> {{ .Location }}</span></h3>
     <table>
         <tbody>
             {{ range .Sessions }}

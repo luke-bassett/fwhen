@@ -1,5 +1,5 @@
 html {
-  max-width: 70ch;
+  max-width: 60ch;
   /* larger spacing on larger screens, very small spacing on tiny screens */
   padding: calc(1vmin + .5rem);
   /* shorthand for margin-left/margin-right */
@@ -15,16 +15,25 @@ body :not(:is(h1,h2,h3,h4,h5,h6)) {
   line-height: 1.15;
 }
 
+.race-heading {
+  margin-bottom: 0px;
+}
+
 .name {
   font-weight: bold;
 }
 
 .trailing-context {
   font-weight: normal;
-  font-size: 0.75em;
+  font-size: 1rem;
   color: #999;
 }
 
 .cell {
-  min-width: 11em;
+  min-width: 10rem;
+}
+
+.countdown {
+  text-align: right;
+  min-width: 10.5rem;
 }
