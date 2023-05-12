@@ -19,6 +19,12 @@ p {
 
 .second-col {
   min-width: 12em;
+  text-align: right;
+}
+
+.third-col {
+  min-width: 11em;
+  text-align: right;
 }
 
 table {
