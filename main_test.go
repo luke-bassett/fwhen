@@ -45,7 +45,7 @@ func TestHandler(t *testing.T) {
 	}
 }
 
-func TestCalculateTimeUntil(t *testing.T) {
+func TestInitSessions(t *testing.T) {
 	now := time.Now().UTC()
 	calendar := &Calendar{
 		Races: []Race{
@@ -66,7 +66,7 @@ func TestCalculateTimeUntil(t *testing.T) {
 		},
 		ReferenceTime: now,
 	}
-	calendar.CalculateTimeUntil()
+	calendar.initSessions()
 	s1Got := calendar.Races[0].Sessions[0].TimeUntil
 	if s1Got != time.Hour {
 		t.Errorf("Session 1 time until is incorrect: got %v want %v",

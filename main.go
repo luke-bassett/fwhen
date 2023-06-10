@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const scheduleJsonFile = "static/2023-f1-schedule.json"
+const scheduleJsonFile = "2023-f1-schedule.json"
 
 type Calendar struct {
 	Races         []Race
@@ -25,29 +25,37 @@ type Race struct {
 
 type Session struct {
 	Name            string    `json:"session"`
+	Cancelled       bool      `json:"cancelled"`
 	StartTime       time.Time `json:"start"`
 	TimeUntil       time.Duration
 	TimeUntilString string
 }
 
 func initCalendar() (*Calendar, error) {
-	c := Calendar{ReferenceTime: time.Now().UTC()}
+	cal := Calendar{ReferenceTime: time.Now().UTC()}
 	rawJson, err := os.ReadFile(scheduleJsonFile)
 	if err != nil {
 		return nil, err
 	}
-	if err := json.Unmarshal(rawJson, &c.Races); err != nil {
+	if err := json.Unmarshal(rawJson, &cal.Races); err != nil {
 		return nil, err
 	}
-	c.CalculateTimeUntil()
-	return &c, nil
+	cal.initSessions()
+	return &cal, nil
 }
 
-func (c *Calendar) CalculateTimeUntil() {
-	for r := range c.Races {
-		for s := range c.Races[r].Sessions {
-			c.Races[r].Sessions[s].TimeUntil = c.Races[r].Sessions[s].StartTime.Sub(c.ReferenceTime)
-			c.Races[r].Sessions[s].TimeUntilString = formatDuration(c.Races[r].Sessions[s].TimeUntil)
+func (cal *Calendar) initSessions() {
+	for r := range cal.Races {
+		for s := range cal.Races[r].Sessions {
+			session := &cal.Races[r].Sessions[s]
+			session.TimeUntil = session.StartTime.Sub(cal.ReferenceTime)
+			if session.TimeUntil < 0 {
+				session.TimeUntilString = "     ---"
+			} else if session.Cancelled {
+				session.TimeUntilString = "Cancelled"
+			} else {
+				session.TimeUntilString = formatDuration(session.TimeUntil)
+			}
 		}
 	}
 }
@@ -65,16 +73,17 @@ func formatDuration(duration time.Duration) string {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	c, err := initCalendar()
+	cal, err := initCalendar()
 	if err != nil {
 		log.Fatal(err)
 	}
 	t, _ := template.ParseFiles("templates/home.html")
-	t.Execute(w, c)
+	t.Execute(w, cal)
 }
 
 func main() {
 	http.HandleFunc("/", handler)
 	http.Handle("/static/", http.FileServer(http.Dir(".")))
+	http.Handle("/js/", http.FileServer(http.Dir(".")))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

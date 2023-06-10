@@ -10,63 +10,28 @@
 <body>
     <h2>F1 2023 Schedule<span class="trailing-context"> all times UTC</span></h2>
     {{ range .Races}}
-    <h3 class="race-heading"><span class="name">{{ .Name }}</span><span class="trailing-context"> {{ .Location }}</span></h3>
+    <h3 class="race-heading">
+        <span class="name">{{ .Name }}</span>
+        <span class="trailing-context"> {{ .Location }}</span>
+    </h3>
     <table>
         <tbody>
             {{ range .Sessions }}
             <tr>
                 <td class="cell session">{{ .Name }}</td>
                 <td class="cell start-time">{{ .StartTime.Format "2006-01-02 15:04" }}</td>
-                <td class="cell countdown" stype="white-space: pre;" id='countdown-{{ .StartTime.Format "200601021504" }}'>{{ .TimeUntilString }}</td>
+                <td class="cell countdown" stype="white-space: pre;"
+                    id='countdown-{{ .StartTime.Format "200601021504" }}'>{{ .TimeUntilString }}</td>
             </tr>
             {{ end }}
         </tbody>
     </table>
     {{ end }}
 
+    <script src="js/countdowns.js"></script>
     <script>
-        // Function to update the countdown timer
-        function updateCountdownTimer(targetTime, elementId) {
-            var countdownElement = document.getElementById(elementId);
-
-            // Update the timer every second
-            var countdownInterval = setInterval(function() {
-                var currentTime = new Date().getTime();
-                var timeRemaining = targetTime - currentTime;
-
-                // Check if the countdown has ended
-                if (timeRemaining <= 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = "---"
-                    return;
-                }
-
-                // Calculate remaining time
-                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                // Add zero padding to hours, minutes, and seconds if needed
-                days = String(days).padStart(3, " ");
-                hours = String(hours).padStart(2, "0");
-                minutes = String(minutes).padStart(2, "0");
-                seconds = String(seconds).padStart(2, "0");
-
-                // Format the countdown timer
-                var countdownString = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-
-                countdownElement.textContent = countdownString;
-            }, 1000);
-        }
-
-        // Get the session start times and update countdown timers
-        var sessionStartTimes = document.getElementsByClassName("start-time");
-        for (var i = 0; i < sessionStartTimes.length; i++) {
-            var startTime = new Date(sessionStartTimes[i].textContent + "+0000").getTime();
-            var elementId = "countdown-" + sessionStartTimes[i].textContent.replace(/\D/g, "");
-            updateCountdownTimer(startTime, elementId);
-        }
+        var calendar = "{{ . }}";
+        console.log(typeof calendar);
     </script>
 </body>
 
