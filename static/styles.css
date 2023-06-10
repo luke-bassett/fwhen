@@ -38,3 +38,12 @@ body :not(:is(h1,h2,h3,h4,h5,h6)) {
   min-width: 10.5rem;
   padding-right: 1.5rem;
 }
+
+.footer {
+  padding-top: 10px;
+  font-size: .8rem;
+}
+
+a {
+  color: #999;
+}
